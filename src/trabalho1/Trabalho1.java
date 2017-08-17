@@ -26,10 +26,13 @@ public class Trabalho1 {
         ScheduledExecutorService executer_escritor = Executors.newScheduledThreadPool(1);
 
         for (int i = 0; i < 120; i++) {
-            executer_escritor.scheduleAtFixedRate(new Escritor(buffer), 0, 100, TimeUnit.MILLISECONDS);
+            executer_escritor.scheduleAtFixedRate(new Escritor(buffer), 0, 1, TimeUnit.MILLISECONDS);
 
             executer_leitores.execute(new Leitor(buffer));
         }
+        
+        executer_escritor.shutdownNow();
+        executer_leitores.shutdownNow();
     }
 
 }

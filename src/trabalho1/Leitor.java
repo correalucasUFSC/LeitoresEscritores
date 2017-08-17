@@ -9,17 +9,18 @@ package trabalho1;
  *
  * @author angelo.leal
  */
-public class Leitor implements Runnable{
-    
+public class Leitor implements Runnable {
+
     private Buffer buffer;
-    
-    public Leitor (Buffer buffer) {
+
+    public Leitor(Buffer buffer) {
         this.buffer = buffer;
     }
-    
+
     @Override
-    public void run (){
+    public void run() {
         this.buffer.ler();
+
     }
 
 }

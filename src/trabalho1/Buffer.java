@@ -13,47 +13,48 @@ import java.util.logging.Logger;
  * @author angelo.leal
  */
 public class Buffer {
-    
+
     private int valor;
     private boolean ocupado;
-    
-    public Buffer(){
+
+    public Buffer() {
         this.valor = 0;
         this.ocupado = false;
     }
 
     public synchronized void escrever(int i) {
-        if(this.ocupado){
+
+        while (this.ocupado) {
             try {
                 wait();
             } catch (InterruptedException ex) {
                 Logger.getLogger(Buffer.class.getName()).log(Level.SEVERE, null, ex);
             }
-        } else {
-            this.ocupado = true;
-            this.valor++;
-            System.out.println("Escreveu: " + this.valor);
-            notifyAll();
-            this.ocupado = false;
         }
+        this.ocupado = true;
+        this.valor = this.valor + i;
+        System.out.println("Escreveu: " + this.valor);
+        notifyAll();
     }
-    
-    public synchronized int ler(){
-        try {
-            if(this.valor == 0) {
-                wait();
-            } else {
-                this.valor = 0;
-                notify();
-                System.out.println("Leu 0: " + this.valor);
+
+    public synchronized int ler() {
+        while (!this.ocupado) {
+            try {
+                if (this.valor == 0) {
+                    wait();
+                }
+            } catch (InterruptedException e) {
+
             }
-            
         }
-        catch(InterruptedException e) {
-            
+        this.ocupado = false;
+        if (this.valor != 0) {
+            System.out.println("Leu 0: " + this.valor);
         }
+        this.valor = 0;
+        notify();
+
         return this.valor;
     }
-    
-    
+
 }

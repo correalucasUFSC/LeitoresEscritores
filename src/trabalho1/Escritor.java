@@ -20,7 +20,10 @@ public class Escritor implements Runnable{
     
     @Override
     public void run (){
-        this.buffer.escrever(i++);        
+        for(int i = 0; i < 120; i++){
+                    this.buffer.escrever(i);        
+
+        }
     }
     
 }
